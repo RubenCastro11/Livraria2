@@ -50,93 +50,53 @@ Route::post('/form','App\Http\Controllers\PesquisaController@formenviado')
     ->name('pesquisa.form');
 
 Route::get('/livros/create','App\Http\Controllers\LivrosController@create')
-    ->name('livros.create');
+    ->name('livros.create')->middleware('auth');
     
 Route::post('/livros/store','App\Http\Controllers\LivrosController@store')
-    ->name('livros.store');
+    ->name('livros.store')->middleware('auth');
 
 Route::get('/generos/create','App\Http\Controllers\GenerosController@create')
-    ->name('generos.create');
+    ->name('generos.create')->middleware('auth');
     
 Route::post('/generos/store','App\Http\Controllers\GenerosController@store')
-    ->name('generos.store');
+    ->name('generos.store')->middleware('auth');
 
 Route::get('/autores/create','App\Http\Controllers\AutoresController@create')
-    ->name('autores.create');
+    ->name('autores.create')->middleware('auth');
     
 Route::post('/autores/store','App\Http\Controllers\AutoresController@store')
-    ->name('autores.store');
+    ->name('autores.store')->middleware('auth');
 
 Route::get('/editoras/create','App\Http\Controllers\EditorasController@create')
-    ->name('editoras.create');
+    ->name('editoras.create')->middleware('auth');
     
 Route::post('/editoras/store','App\Http\Controllers\EditorasController@store')
-    ->name('editoras.store');
+    ->name('editoras.store')->middleware('auth');
 
 Route::get('/livros/{id}/edit','App\Http\Controllers\LivrosController@edit')
-    ->name('livros.edit');
+    ->name('livros.edit')->middleware('auth');
 
 Route::patch('/livros/{id}','App\Http\Controllers\LivrosController@update')
-    ->name('livros.update');
+    ->name('livros.update')->middleware('auth');
 
 Route::get('/generos/{id}/edit','App\Http\Controllers\GenerosController@edit')
-    ->name('generos.edit');
+    ->name('generos.edit')->middleware('auth');
 
 Route::patch('/generos/{id}','App\Http\Controllers\GenerosController@update')
-    ->name('generos.update');
+    ->name('generos.update')->middleware('auth');
 
 Route::get('/editoras/{id}/edit','App\Http\Controllers\EditorasController@edit')
-    ->name('editoras.edit');
+    ->name('editoras.edit')->middleware('auth');
 
 Route::patch('/editoras/{id}','App\Http\Controllers\EditorasController@update')
-    ->name('editoras.update');
+    ->name('editoras.update')->middleware('auth');
 
 Route::get('/livros/{id}/delete','App\Http\Controllers\LivrosController@delete')
-    ->name('livros.delete');
+    ->name('livros.delete')->middleware('auth');
 
 Route::delete('/livros/{id}','App\Http\Controllers\LivrosController@destroy')
-    ->name('livros.destroy');
+    ->name('livros.destroy')->middleware('auth');
 
+Auth::routes();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

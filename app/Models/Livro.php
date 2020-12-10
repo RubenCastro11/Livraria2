@@ -21,7 +21,8 @@ class Livro extends Model
         'imagem_capa',
         'id_genero',
         'id_autor',
-        'sinopse'
+        'sinopse',
+        'id_user'
     ];
     public function genero(){
         return $this->belongsTo('App\Models\Genero','id_genero');
