@@ -20,5 +20,6 @@ Deleted_at:{{$genero->deleted_at}}<br>
        
  </a>
     <a href="{{route('generos.delete', ['id'=>$genero->id_genero])}}" class="btn btn-primary"> Eliminar genero
+</a>    
 @endif
 </ul>

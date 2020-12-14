@@ -70,4 +70,5 @@ class AutoresController extends Controller
         return redirect()->route('livros.show',[
             'id'=>$livro->id_livro
         ]);
+    }
 }

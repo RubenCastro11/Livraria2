@@ -70,9 +70,36 @@ class EditorasController extends Controller
         $livro->update($atualizarEditora);
         
         return redirect()->route('editoras.show',[
-            'ide'=>$editora->id_editora
-        ]);
-    
-        
+            'id'=>$editora->id_editora
+        ]);    
+    }
+    public function delete(Request $r){
+        $id_editora=$r->id;
+        $editora=Editora::where('id_editora',$id_editora)->first();
+        if(is_null($editora)){
+            return redirect()->route('editoras.index');
+
+        }
+        else
+        {
+            return view('editoras.delete',[
+                'editora'=>$editora
+            ]);
+        }
+    } 
+    public function destroy(Request $r){
+        $id_editora=$r->id;
+        $editora=Editora::where('id_editora',$id_editora)->first();
+        if(is_null($editora)){
+            return redirect()->route('editoras.index');
+
+        }
+        else
+        {
+            $editora->delete();
+            return redirect()->route('editoras.index')->with('msg',"Editora eliminada!");
+            
+        }
+
     }
 }

@@ -17,12 +17,13 @@ Observacoes:{{$editora->observacoes}}<br>
 
 Created_at:{{$editora->created_at}}<br>
 Updated_at:{{$editora->updated_at}}<br>
-Deleted_at:{{$editora->deleted_at}}
+Deleted_at:{{$editora->deleted_at}}<br>
 @if(auth()->check())
     <a href="{{route('editoras.edit', ['id'=>$editora->id_editora])}}" class="btn btn-primary"> Editar editora
 
  </a>
  
     <a href="{{route('editoras.delete', ['id'=>$editora->id_editora])}}" class="btn btn-primary"> Eliminar editora
+</a>
  @endif   
 </ul>

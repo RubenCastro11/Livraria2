@@ -97,6 +97,19 @@ Route::get('/livros/{id}/delete','App\Http\Controllers\LivrosController@delete')
 Route::delete('/livros/{id}','App\Http\Controllers\LivrosController@destroy')
     ->name('livros.destroy')->middleware('auth');
 
+Route::get('/generos/{id}/delete','App\Http\Controllers\GenerosController@delete')
+    ->name('generos.delete')->middleware('auth');
+   
+Route::delete('/generos/{id}','App\Http\Controllers\GenerosController@destroy')
+    ->name('generos.destroy')->middleware('auth');
+
+Route::get('/editoras/{id}/delete','App\Http\Controllers\EditorasController@delete')
+    ->name('editoras.delete')->middleware('auth');
+   
+Route::delete('/editoras/{id}','App\Http\Controllers\EditorasController@destroy')
+    ->name('editoras.destroy')->middleware('auth');
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

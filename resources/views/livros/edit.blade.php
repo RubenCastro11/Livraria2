@@ -50,7 +50,7 @@
      Editor(as):
     <select name="id_editora[]" multiple="multiple">
         @foreach($editoras as $editora)
-        <option value="{{$editora->id_editora}}"@if(in_array($editora->id_editora, $editoraLivros))selected @endif>{{$editora->nome}}</option>
+        <option value="{{$editora->id_editora}}"@if(in_array($editora->id_editora, $editorasLivros))selected @endif>{{$editora->nome}}</option>
         @endforeach
     </select>
     <input type="submit" value="enviar">
