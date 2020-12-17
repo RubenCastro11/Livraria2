@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\Genero;
 
@@ -25,7 +25,13 @@ class GenerosController extends Controller
         ]);
     }
     public function create(){
+        if(Gate::allows('admin')){
+        
         return view('generos.create');
+        }
+        else{
+            return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
+        }         
     }
     public function store(Request $req){
         $novoGenero = $req->validate([
@@ -40,22 +46,27 @@ class GenerosController extends Controller
         
     } 
     public function edit (Request $request){
-        
-        $idGenero=$request->id;
+        if(Gate::allows('admin')){
+        $idGenero=$request->idg;
         
         $genero = genero::where('id_genero', $idGenero)->first();
         
         return view('generos.edit',[
             'genero'=>$genero
         ]);                      
-                              
+        }
+        else{
+            return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
+        }                              
         
     }
     public function update (Request $request){
+        if(Gate::allows('admin')){
         
-        $idGenero=$request->id;
-        
+        $idGenero=$request->idg;
+     
         $genero = Genero::where('id_genero', $idGenero)->first();
+
       
         $atualizarGenero = $request->validate([
             'designacao'=>['required','min:3','max:255'],
@@ -67,9 +78,14 @@ class GenerosController extends Controller
         return redirect()->route('generos.show',[
             'id'=>$genero->id_genero
         ]);
+        }
+        else{
+            return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
+        }               
     }
     public function delete(Request $r){
-        $id_genero=$r->id;
+        if(Gate::allows('admin')){
+        $id_genero=$r->idg;
         $genero=Genero::where('id_genero',$id_genero)->first();
         if(is_null($genero)){
             return redirect()->route('generos.index');
@@ -81,5 +97,11 @@ class GenerosController extends Controller
                 'genero'=>$genero
             ]);
         }
+        
+    }
+    else{
+        return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
+    }               
+
     }
 }

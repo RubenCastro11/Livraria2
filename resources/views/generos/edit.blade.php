@@ -1,4 +1,4 @@
-<form action="{{route('generos.update',['id'=>$genero->id_genero])}}" method="post">
+<form action="{{route('generos.update',['idg'=>$genero->id_genero])}}" method="post">
 @csrf
 @method('patch')    
     Designacao: <input type="text" name="designacao" value="{{$genero->designacao}}"><br><br>

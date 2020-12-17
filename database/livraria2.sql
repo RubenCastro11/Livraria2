@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 10-Dez-2020 às 16:08
+-- Generation Time: 17-Dez-2020 às 15:24
 -- Versão do servidor: 10.1.38-MariaDB
 -- versão do PHP: 7.3.2
 
@@ -46,7 +46,6 @@ CREATE TABLE `autores` (
 INSERT INTO `autores` (`id_autor`, `nome`, `nacionalidade`, `data_nascimento`, `fotografia`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Luis Borges Gouveia', 'Portugês', NULL, NULL, NULL, NULL, NULL),
 (2, 'João Ranito', 'Portugês', NULL, NULL, NULL, NULL, NULL),
-(3, 'Nuno Magalhães Ribeiro', 'Portugês', NULL, NULL, NULL, NULL, NULL),
 (4, 'Paulo Rurato', 'Português', NULL, NULL, NULL, NULL, NULL),
 (5, 'Sofia Gaio', 'Portugês', NULL, NULL, NULL, NULL, NULL),
 (6, 'Rui Moreira', 'Portugês', NULL, NULL, NULL, NULL, NULL),
@@ -173,7 +172,8 @@ INSERT INTO `generos` (`id_genero`, `designacao`, `observacoes`, `created_at`, `
 (7, 'pafdf', 'fgggggg', '2020-11-27 15:35:27', '2020-11-27 15:35:27', NULL),
 (8, 'nnmnn', 'nnn', '2020-12-04 16:53:53', '2020-12-04 16:53:53', NULL),
 (9, 'nnmnn', 'nnn', '2020-12-04 16:54:04', '2020-12-04 16:54:04', NULL),
-(10, 'nnmnn', 'nnn', '2020-12-04 16:54:34', '2020-12-04 16:54:34', NULL);
+(10, 'nnmnn', 'nnn', '2020-12-04 16:54:34', '2020-12-04 16:54:34', NULL),
+(11, 'gfggg', 'ggg', '2020-12-17 13:49:28', '2020-12-17 13:49:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -206,7 +206,6 @@ CREATE TABLE `livros` (
 INSERT INTO `livros` (`id_livro`, `titulo`, `idioma`, `total_paginas`, `data_edicao`, `isbn`, `observacoes`, `imagem_capa`, `id_genero`, `id_autor`, `sinopse`, `created_at`, `updated_at`, `deleted_at`, `id_user`) VALUES
 (1, 'sistema de informação de apoio a gestão', 'Português', NULL, NULL, '1234567890123', NULL, NULL, 1, 1, NULL, NULL, '2020-11-27 16:14:04', NULL, 0),
 (2, 'cidades e regiões digitais:impacte na cidade e nas pessoas', 'Portugês', NULL, NULL, '9728830033', NULL, NULL, 2, 1, NULL, NULL, NULL, NULL, 0),
-(4, 'Readings in Information Society', 'Inglês', NULL, NULL, '9789727228997', NULL, NULL, 3, 5, NULL, NULL, NULL, NULL, 0),
 (5, 'Sociedade da Informação: balanço e implicações ', 'Português', NULL, NULL, '9789728830182', NULL, NULL, 3, 7, NULL, NULL, NULL, NULL, 0),
 (6, 'O Tribunal de Contas e as Autarquias Locais', 'Portugês', NULL, NULL, '9789899936614', NULL, NULL, 2, 7, NULL, NULL, NULL, NULL, 0),
 (7, 'Informática e Competências Tecnológicas para a Sociedade da Informação 2ed', 'Português', NULL, NULL, '9789728830304', NULL, NULL, 2, 8, NULL, NULL, NULL, NULL, 0),
@@ -217,7 +216,8 @@ INSERT INTO `livros` (`id_livro`, `titulo`, `idioma`, `total_paginas`, `data_edi
 (12, 'Repensar a Sociedade da Informação e do Conhecimento no Início do Século XXI', 'Português', NULL, NULL, '9789726186953', NULL, NULL, 3, 4, NULL, NULL, NULL, NULL, 0),
 (13, 'Gestão da Informação em Museus: uma contribuição para o seu estudo', 'Português', NULL, NULL, '9789899901394', NULL, NULL, 2, 4, NULL, NULL, NULL, NULL, 0),
 (14, 'Web 2.0 and Higher Education. A psychological perspective', 'Inglês', NULL, NULL, '9783659683466', NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, 0),
-(17, 'fhh', 'fdffddf', 43423, '2020-12-03 00:00:00', '1235467834524', NULL, 'hhg', NULL, NULL, NULL, '2020-12-04 17:25:06', '2020-12-04 17:25:06', NULL, 0);
+(17, 'fhh', 'fdffddf', 43423, '2020-12-03 00:00:00', '1235467834524', NULL, 'hhg', NULL, NULL, NULL, '2020-12-04 17:25:06', '2020-12-04 17:25:06', NULL, 0),
+(18, 'fsfggff', 'ptt', 13, '2020-12-17 00:00:00', '1234567890111', NULL, NULL, NULL, NULL, NULL, '2020-12-17 13:45:01', '2020-12-17 13:45:01', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -231,6 +231,7 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo_user` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal' COMMENT 'admin ou normal',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -240,8 +241,8 @@ CREATE TABLE `users` (
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Neixan', 'neixan11@gmail.com', NULL, '$2y$10$VOHyv5DUxW/NK3UDwgh9p.l/KHpKj2KVxYxSLqpXgmZ8RomU.O.Cu', NULL, '2020-12-10 13:56:02', '2020-12-10 13:56:02');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `tipo_user`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Neixan', 'neixan11@gmail.com', NULL, '$2y$10$VOHyv5DUxW/NK3UDwgh9p.l/KHpKj2KVxYxSLqpXgmZ8RomU.O.Cu', 'normal', NULL, '2020-12-10 13:56:02', '2020-12-10 13:56:02');
 
 --
 -- Indexes for dumped tables
@@ -297,7 +298,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `autores`
 --
 ALTER TABLE `autores`
-  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `autores_livros`
@@ -309,19 +310,19 @@ ALTER TABLE `autores_livros`
 -- AUTO_INCREMENT for table `editoras`
 --
 ALTER TABLE `editoras`
-  MODIFY `id_editora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_editora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `generos`
 --
 ALTER TABLE `generos`
-  MODIFY `id_genero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_genero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `livros`
 --
 ALTER TABLE `livros`
-  MODIFY `id_livro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_livro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`

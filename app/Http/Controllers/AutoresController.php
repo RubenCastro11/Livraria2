@@ -21,7 +21,7 @@ class AutoresController extends Controller
         //$autores=Autor::find($idAutores);
         $autores=Autor::where('id_autor',$idAutores)->with('livros')->first();
         return view('autores.show',[
-            'autores'=>$autores
+            'autor'=>$autores
         ]);
     }
     public function create(){
@@ -55,20 +55,50 @@ class AutoresController extends Controller
     }
     public function update (Request $request){
         
-        $idLivro=$request->id;
+        $idAutor=$request->ida;
         
-        $livro = Livro::where('id_livro', $idLivro)->first();
+        $autor = Autor::where('id_autor', $idAutor)->first();
       
-        $atualizarLivro = $request->validate([
+        $atualizarAutor = $request->validate([
             'nome'=>['nullable','min:3','max:100'],
             'nacionalidade'=>['nullable','min:1'],
             'data_nascimento'=>['nullable','date'],
             'fotografia'=>['nullable'],            
         ]);
-        $livro->update($atualizarLivro);
+        $autor->update($atualizarAutor);
         
-        return redirect()->route('livros.show',[
-            'id'=>$livro->id_livro
+        return redirect()->route('autores.show',[
+            'ida'=>$autor->id_autor
         ]);
+
+    }
+    public function delete(Request $r){
+        $id_autor=$r->ida;
+        $autor=Autor::where('id_autor',$id_autor)->first();
+        if(is_null($autor)){
+            return redirect()->route('autores.index');
+
+        }
+        else
+        {
+            return view('autores.delete',[
+                'autor'=>$autor
+            ]);
+        }
+    } 
+    public function destroy(Request $r){
+        $id_autor=$r->ida;
+        $autor=Autor::where('id_autor',$id_autor)->first();
+        if(is_null($autor)){
+            return redirect()->route('autores.index');
+
+        }
+        else
+        {
+            $autor->delete();
+            return redirect()->route('autores.index')->with('msg',"Autor eliminada!");
+            
+        }
+
     }
 }

@@ -79,10 +79,10 @@ Route::get('/livros/{id}/edit','App\Http\Controllers\LivrosController@edit')
 Route::patch('/livros/{id}','App\Http\Controllers\LivrosController@update')
     ->name('livros.update')->middleware('auth');
 
-Route::get('/generos/{id}/edit','App\Http\Controllers\GenerosController@edit')
+Route::get('/generos/{idg}/edit','App\Http\Controllers\GenerosController@edit')
     ->name('generos.edit')->middleware('auth');
 
-Route::patch('/generos/{id}','App\Http\Controllers\GenerosController@update')
+Route::patch('/generos/{idg}','App\Http\Controllers\GenerosController@update')
     ->name('generos.update')->middleware('auth');
 
 Route::get('/editoras/{id}/edit','App\Http\Controllers\EditorasController@edit')
@@ -97,10 +97,10 @@ Route::get('/livros/{id}/delete','App\Http\Controllers\LivrosController@delete')
 Route::delete('/livros/{id}','App\Http\Controllers\LivrosController@destroy')
     ->name('livros.destroy')->middleware('auth');
 
-Route::get('/generos/{id}/delete','App\Http\Controllers\GenerosController@delete')
+Route::get('/generos/{idg}/delete','App\Http\Controllers\GenerosController@delete')
     ->name('generos.delete')->middleware('auth');
    
-Route::delete('/generos/{id}','App\Http\Controllers\GenerosController@destroy')
+Route::delete('/generos/{idg}','App\Http\Controllers\GenerosController@destroy')
     ->name('generos.destroy')->middleware('auth');
 
 Route::get('/editoras/{id}/delete','App\Http\Controllers\EditorasController@delete')
@@ -109,6 +109,17 @@ Route::get('/editoras/{id}/delete','App\Http\Controllers\EditorasController@dele
 Route::delete('/editoras/{id}','App\Http\Controllers\EditorasController@destroy')
     ->name('editoras.destroy')->middleware('auth');
 
+Route::get('/autores/{ida}/edit','App\Http\Controllers\AutoresController@edit')
+    ->name('autores.edit')->middleware('auth');    
+
+Route::patch('/autores/{ida}','App\Http\Controllers\AutoresController@update')
+    ->name('autores.update')->middleware('auth');
+
+ Route::get('/autores/{ida}/delete','App\Http\Controllers\AutoresController@delete')
+    ->name('autores.delete')->middleware('auth');
+   
+Route::delete('/autores/{ida}','App\Http\Controllers\AutoresController@destroy')
+    ->name('autores.destroy')->middleware('auth');
 
 Auth::routes();
 
