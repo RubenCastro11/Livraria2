@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Editora;
 
 class EditorasController extends Controller
@@ -25,9 +26,18 @@ class EditorasController extends Controller
         ]);
         }
     public function create(){
+        if(Gate::allows('admin')){
+
         return view('editoras.create');
+        }
+        else{
+            return redirect()->route('editoras.index')->with('msg','Não tem permissão para aceder á área pretendida');
+        }         
+        
     }
     public function store(Request $req){
+        if(Gate::allows('admin')){
+
         $novoEditora = $req->validate([
             'nome'=>['nullable','min:3','max:100'],
             'nacionalidade'=>['nullable','min:1'],
@@ -40,21 +50,32 @@ class EditorasController extends Controller
         return redirect()->route('editoras.show',[
             'ide'=>$editora->id_editora
         ]);
-
     }
+    else{
+        return redirect()->route('editoras.index')->with('msg','Não tem permissão para aceder á área pretendida');
+    }
+    }         
+
     public function edit (Request $request){
-        
+        if(Gate::allows('admin')){
         $idEditora=$request->ide;
         
-        $editora = editora::where('id_editora', $idEditora)->first();
+        $editora = Editora::where('id_editora', $idEditora)->first();
         
         return view('editoras.edit',[
             'editora'=>$editora
-        ]);                      
+        ]); 
+        }
+        else{
+            return redirect()->route('editoras.index')->with('msg','Não tem permissão para aceder á área pretendida');
+        }                       
+
                               
         
     }
     public function update (Request $request){
+        if(Gate::allows('admin')){
+        
         
         $idEditora=$request->ide;
         
@@ -67,14 +88,19 @@ class EditorasController extends Controller
             'fotografia'=>['nullable'],
                     
         ]);
-        $livro->update($atualizarEditora);
+        $editora->update($atualizarEditora);
         
         return redirect()->route('editoras.show',[
-            'id'=>$editora->id_editora
-        ]);    
+            'ide'=>$editora->id_editora
+        ]); 
+    }
+    else{
+        return redirect()->route('editoras.index')->with('msg','Não tem permissão para aceder á área pretendida');
+    }                 
     }
     public function delete(Request $r){
-        $id_editora=$r->id;
+        if(Gate::allows('admin')){
+        $id_editora=$r->ide;
         $editora=Editora::where('id_editora',$id_editora)->first();
         if(is_null($editora)){
             return redirect()->route('editoras.index');
@@ -87,8 +113,13 @@ class EditorasController extends Controller
             ]);
         }
     } 
+    else{
+        return redirect()->route('editoras.index')->with('msg','Não tem permissão para aceder á área pretendida');
+    }
+    }               
     public function destroy(Request $r){
-        $id_editora=$r->id;
+        if(Gate::allows('admin')){
+        $id_editora=$r->ide;
         $editora=Editora::where('id_editora',$id_editora)->first();
         if(is_null($editora)){
             return redirect()->route('editoras.index');
@@ -98,7 +129,10 @@ class EditorasController extends Controller
         {
             $editora->delete();
             return redirect()->route('editoras.index')->with('msg',"Editora eliminada!");
-            
+        }  
+        }
+        else{
+            return redirect()->route('editoras.index')->with('msg','Não tem permissão para aceder á área pretendida');
         }
 
     }

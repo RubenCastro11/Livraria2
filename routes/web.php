@@ -85,10 +85,10 @@ Route::get('/generos/{idg}/edit','App\Http\Controllers\GenerosController@edit')
 Route::patch('/generos/{idg}','App\Http\Controllers\GenerosController@update')
     ->name('generos.update')->middleware('auth');
 
-Route::get('/editoras/{id}/edit','App\Http\Controllers\EditorasController@edit')
+Route::get('/editoras/{ide}/edit','App\Http\Controllers\EditorasController@edit')
     ->name('editoras.edit')->middleware('auth');
 
-Route::patch('/editoras/{id}','App\Http\Controllers\EditorasController@update')
+Route::patch('/editoras/{ide}','App\Http\Controllers\EditorasController@update')
     ->name('editoras.update')->middleware('auth');
 
 Route::get('/livros/{id}/delete','App\Http\Controllers\LivrosController@delete')
@@ -103,10 +103,10 @@ Route::get('/generos/{idg}/delete','App\Http\Controllers\GenerosController@delet
 Route::delete('/generos/{idg}','App\Http\Controllers\GenerosController@destroy')
     ->name('generos.destroy')->middleware('auth');
 
-Route::get('/editoras/{id}/delete','App\Http\Controllers\EditorasController@delete')
+Route::get('/editoras/{ide}/delete','App\Http\Controllers\EditorasController@delete')
     ->name('editoras.delete')->middleware('auth');
    
-Route::delete('/editoras/{id}','App\Http\Controllers\EditorasController@destroy')
+Route::delete('/editoras/{ide}','App\Http\Controllers\EditorasController@destroy')
     ->name('editoras.destroy')->middleware('auth');
 
 Route::get('/autores/{ida}/edit','App\Http\Controllers\AutoresController@edit')

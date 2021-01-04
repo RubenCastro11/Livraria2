@@ -31,8 +31,8 @@ class LivrosController extends Controller
     }
     
     public function create(){
-
-        if(Gate::allows('admin')){
+                                                                        
+     
         $generos = Genero::all();
         $autores = Autor::all();
         $editoras = Editora::all();
@@ -41,15 +41,15 @@ class LivrosController extends Controller
             'autores'=> $autores,
             'editora'=> $editoras
         ]);
-        }
-        else{
-            return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
-        }         
+      
     }
     public function store(Request $req){
 
 
-        if(Gate::allows('admin')){
+
+
+
+     
         $novoLivro = $req->validate([
            
             'titulo'=>['required', 'min:3','max:100'],
@@ -74,10 +74,7 @@ class LivrosController extends Controller
         return redirect()->route('livros.show',[
             'id'=>$livro->id_livro
         ]);
-        }
-        else{
-            return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
-        }         
+      
     }     
     public function edit (Request $request){
 
@@ -96,7 +93,7 @@ class LivrosController extends Controller
                 $editorasLivro[] = $editora->id_editora;
             }
 
-            if(Gate::allows('atualizar-livro',$livro)||Gate::allows('admin')){
+            if(Gate::allows('atualizar-livro',$livro)){
                 return view('livros.edit',[
                     'livro'=>$livro,
                     'autores'=>$autores,
@@ -111,10 +108,12 @@ class LivrosController extends Controller
     }
 
     public function update (Request $request){
-        if(Gate::allows('admin')){
+       
         $idLivro=$request->id;
+      
         
         $livro = Livro::where('id_livro', $idLivro)->first();
+        if(Gate::allows('atualizar-livro',$livro)){
       
         $atualizarLivro = $request->validate([
             'titulo'=>['required', 'min:3','max:100'],
@@ -144,8 +143,9 @@ class LivrosController extends Controller
         }         
     }
     public function delete(Request $r){
-        if(Gate::allows('admin')){
+       
         $livro = Livro::where('id_livro', $r->id)->first();
+        if(Gate::allows('atualizar-livro',$livro)){
         if(is_null($livro)){
             return redirect()->route('livros.index')
                 ->with('msg', 'O livro não existe');
@@ -159,22 +159,21 @@ class LivrosController extends Controller
     }         
     }
     
-    public function destroy(Request $r){
-
-        if(Gate::allows('admin')){
+    public function destroy(Request $r){       
         $idLivro = $r->id;
         
         $livro = livro::where('id_livro',$idLivro)->first();
-        $autoresLivro=livro::where('id_livro',$idLivro)->first();
-        $editorasLivro=livro::where('id_livro',$idLivro)->first();
-        $livro->autores()->detach($autoresLivro);
-        $livro->editoras()->detach($editorasLivro);
-        $livro->delete();
-        return redirect()->route('livros.index')->with('msg','Livro eliminado!');
-    }
-    else{
-        return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
-    }         
+        if(Gate::allows('atualizar-livro',$livro)){
+            $autoresLivro=livro::where('id_livro',$idLivro)->first();
+            $editorasLivro=livro::where('id_livro',$idLivro)->first();
+            $livro->autores()->detach($autoresLivro);
+            $livro->editoras()->detach($editorasLivro);
+            $livro->delete();
+            return redirect()->route('livros.index')->with('msg','Livro eliminado!');
+        }
+        else{
+            return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
+        }         
     }
     
 
