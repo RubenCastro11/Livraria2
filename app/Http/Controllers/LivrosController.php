@@ -45,12 +45,8 @@ class LivrosController extends Controller
     }
     public function store(Request $req){
 
-
-
-
-
-     
         $novoLivro = $req->validate([
+
            
             'titulo'=>['required', 'min:3','max:100'],
             'idioma'=>['nullable','min:3','max:20'],
@@ -58,10 +54,18 @@ class LivrosController extends Controller
             'data_edicao'=>['nullable','date'],
             'isbn'=>['nullable','min:13','max:13'],
             'observacoes'=>['nullable','min:3','max:255'],
-            'imagem_capa'=>['nullable'],
+            'imagem_capa'=>['image','nullable','max:2000'],
             'id_genero'=>['numeric','nullable'],
             'sinopse'=>['nullable','min:3','max:255'],            
         ]);
+        if($req->hasFile('imagem_capa')){
+            $nomeImagem = $req->file('imagem_capa')->getClientOriginalName();
+
+            $nomeImagem = time().'_'.$nomeImagem;
+            $guardarImagem = $req->file('imagem_capa')->storeAs('imagens/livros',$nomeImagem);
+
+            $novoLivro['imagem_capa']=$nomeImagem;
+        }
         if(Auth::check()){
             $userAtual=Auth::user()->id;
             $novoLivro['id_user']=$userAtual;
@@ -80,7 +84,9 @@ class LivrosController extends Controller
 
       
         $idLivro=$request->id;
-        $autores = Autor::all();
+        
+
+                $autores = Autor::all();
         $editoras = Editora::all();
         $livro = livro::where('id_livro', $idLivro)->with('autores','editoras')->first();
        
@@ -92,8 +98,6 @@ class LivrosController extends Controller
             foreach($livro->editoras as $editora){
                 $editorasLivro[] = $editora->id_editora;
             }
-
-            if(Gate::allows('atualizar-livro',$livro)){
                 return view('livros.edit',[
                     'livro'=>$livro,
                     'autores'=>$autores,
@@ -101,10 +105,9 @@ class LivrosController extends Controller
                     'editoras'=>$editoras,
                     'editorasLivros'=>$editorasLivro
                 ]);
-            }
-            else{
-                return redirect()->route('livros.index')->with('msg','Não tem permissão para aceder á área pretendida');
-            }                                  
+            
+            
+                                             
     }
 
     public function update (Request $request){
@@ -122,10 +125,18 @@ class LivrosController extends Controller
             'data_edicao'=>['nullable','date'],
             'isbn'=>['nullable','min:13','max:13'],
             'observacoes'=>['nullable','min:3','max:255'],
-            'imagem_capa'=>['nullable'],
+            'imagem_capa'=>['image','nullable','max:2000'],
             'id_genero'=>['numeric','nullable'],
             'sinopse'=>['nullable','min:3','max:255'],            
         ]);
+        if($req->hasFile('imagem_capa')){
+            $nomeImagem = $req->file('imagem_capa')->getClientOriginalName();
+
+            $nomeImagem = time().'_'.$nomeImagem;
+            $guardarImagem = $req->file('imagem_capa')->storeAs('imagens/livros',$nomeImagem);
+
+            $ãtualizarLivro['imagem_capa']=$nomeImagem;
+        }
         $autores=$request->id_autor;
         $editoras=$request->id_editora;
         $livro->update($atualizarLivro);

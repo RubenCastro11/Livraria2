@@ -1,4 +1,4 @@
-<form action="{{route('livros.store')}}" method="post">
+<form action="{{route('livros.store')}}" enctype="multipart/form-data" method="post">
 @csrf
     Titulo: <input type="text" name="titulo" value="{{old('titulo')}}"><br><br>
     @if( $errors->has('titulo') )
@@ -24,7 +24,7 @@
     @if( $errors->has('observacoes') )
     Minimo de 3 carateres
     @endif
-    Imagem Capa: <input type="text" name="imagem_capa" value="{{old('imagem_capa')}}"><br><br>
+    Imagem Capa: <input type="file" name="imagem_capa" value="{{old('imagem_capa')}}"><br><br>
     @if( $errors->has('imagem capa') )
     Erro
     @endif
@@ -38,7 +38,7 @@
         <option value="{{$autor->id_autor}}"></option>
         @endforeach
     </select> 
-    <br>
+    <br> <br>
     @if( $errors->has('autor') )
     Insira o autor
     @endif

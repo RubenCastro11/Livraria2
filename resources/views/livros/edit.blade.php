@@ -1,4 +1,4 @@
-<form action="{{route('livros.update',['id'=>$livro->id_livro])}}" method="post">
+<form action="{{route('livros.update',['id'=>$livro->id_livro])}}" enctype="multipart/form-data" method="post">
 @csrf
 @method('patch')
     Titulo: <input type="text" name="titulo" value="{{$livro->titulo}}"><br><br>
@@ -25,7 +25,7 @@
     @if( $errors->has('observacoes') )
     Minimo de 3 carateres
     @endif
-    Imagem Capa: <input type="text" name="imagem_capa" value=""><br><br>
+    Imagem Capa: <input type="file" name="imagem_capa" value=""><br><br>
     @if( $errors->has('imagem capa') )
     Erro
     @endif
@@ -40,9 +40,10 @@
         
         @endforeach
     </select>
-    @if( $errors->has('autor') )
-    Insira o autor
+    @if( $errors->has('id_autor') )
+    Insira o autor<br>
     @endif
+    
     Sinopse: <textarea name="sinopse" value="{{$livro->sinopse}}"></textarea><br><br>
     @if( $errors->has('sinopse') )
     Minimo de 3 palavras
