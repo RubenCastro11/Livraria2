@@ -19,7 +19,7 @@
     @endif
     ISBN: <input type="text" name="isbn" value="{{$livro->isbn}}"><br><br>
     @if( $errors->has('isbn') )
-    Deverá indicar um ISBN correto (13 carateres)
+    Deverá indicar um ISBN correto (13 carateres)<br>
     @endif
     Observações: <textarea name="observacoes" value="{{$livro->observacoes}}"></textarea><br><br>
     @if( $errors->has('observacoes') )

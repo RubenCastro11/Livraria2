@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\Models\Livro;
 use App\Models\Genero;
@@ -36,6 +37,7 @@ class LivrosController extends Controller
         $generos = Genero::all();
         $autores = Autor::all();
         $editoras = Editora::all();
+
         return view('livros.create',[
             'generos'=> $generos,
             'autores'=> $autores,
@@ -56,7 +58,8 @@ class LivrosController extends Controller
             'observacoes'=>['nullable','min:3','max:255'],
             'imagem_capa'=>['image','nullable','max:2000'],
             'id_genero'=>['numeric','nullable'],
-            'sinopse'=>['nullable','min:3','max:255'],            
+            'sinopse'=>['nullable','min:3','max:255'],  
+            'excerto'=>['']          
         ]);
         if($req->hasFile('imagem_capa')){
             $nomeImagem = $req->file('imagem_capa')->getClientOriginalName();
@@ -113,9 +116,9 @@ class LivrosController extends Controller
     public function update (Request $request){
        
         $idLivro=$request->id;
-      
-        
+
         $livro = Livro::where('id_livro', $idLivro)->first();
+        $imagemAntiga = $livro->imagem_capa;
         if(Gate::allows('atualizar-livro',$livro)){
       
         $atualizarLivro = $request->validate([
@@ -129,13 +132,17 @@ class LivrosController extends Controller
             'id_genero'=>['numeric','nullable'],
             'sinopse'=>['nullable','min:3','max:255'],            
         ]);
-        if($req->hasFile('imagem_capa')){
-            $nomeImagem = $req->file('imagem_capa')->getClientOriginalName();
+        if($request->hasFile('imagem_capa')){
+            $nomeImagem = $request->file('imagem_capa')->getClientOriginalName();
 
             $nomeImagem = time().'_'.$nomeImagem;
-            $guardarImagem = $req->file('imagem_capa')->storeAs('imagens/livros',$nomeImagem);
+            $guardarImagem = $request->file('imagem_capa')->storeAs('imagens/livros',$nomeImagem);
 
-            $ãtualizarLivro['imagem_capa']=$nomeImagem;
+            if(!is_null($imagemAntiga)){
+                Storage::Delete('imagens/livros/'.$imagemAntiga);
+            }
+
+            $atualizarLivro['imagem_capa']=$nomeImagem;
         }
         $autores=$request->id_autor;
         $editoras=$request->id_editora;

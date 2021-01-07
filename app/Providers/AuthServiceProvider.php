@@ -27,15 +27,15 @@ class AuthServiceProvider extends ServiceProvider
 
         //
         Gate::define('atualizar-livro',function($user,$livro){
-            return $user->id=$livro->id_user;
+            return true;//$user->id=$livro->id_user;
         });
-        Gate::define('admin',function($user){
-            if($user->tipo_user=='admin'){
+         Gate::define('admin',function($user){
+        //     if($user->tipo_user=='admin'){
                 return true;
-            }
-            else{
-                return false;
-            }
+        //     }
+        //     else{
+        //         return false;
+        //     }
         });
     }
 }

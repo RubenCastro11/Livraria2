@@ -32,6 +32,13 @@
     @if( $errors->has('género') )
     Insira o género
     @endif
+
+    Excerto: <input type="file" name ="excerto" value="{{old('excerto')}}"><br><br>
+    @if($errors->has('excerto'))
+    erro
+    @endif
+
+
     Autor(es):
     <select name="id_autor[]" multiple="multiple">
         @foreach($autores as $autor)

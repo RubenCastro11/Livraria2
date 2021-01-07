@@ -8,9 +8,11 @@ Data Edição:{{$livro->data_edicao}}<br>
 Total paginas:{{$livro->total_paginas}}<br>
 Observações:{{$livro->observacoes}}<br>
 Imagem Capa:<br>
-<img src="asset{{asset('imagens/livros/'.$livro->imagem_capa)}}">
+@if(isset($livro->imagem_capa))
+<img src="{{asset('imagens/livros/'.$livro->imagem_capa)}}">
 <br>
 <br>
+@endif
 
 @if(count($livro->editoras)>0)
         @foreach($livro->editoras as $editora)
@@ -41,9 +43,7 @@ Imagem Capa:<br>
     @endif
 
 Sinopse:{{$livro->sinopse}}<br>
-Created_at:{{$livro->created_at}}<br>
-Updated_at:{{$livro->updated_at}}<br>
-Deleted_at:{{$livro->deleted_at}}<br>
+
 
 @if(auth()->check())
     <a href="{{route('livros.edit', ['id'=>$livro->id_livro])}}" class="btn btn-primary"> Editar livro
@@ -53,4 +53,4 @@ Deleted_at:{{$livro->deleted_at}}<br>
    
 </a>
 @endif
-</ul>
+</ul>                       
